@@ -111,6 +111,9 @@ const keys = {
     ArrowLeft: {
         pressed: false
     },
+    ArrowUp: {
+        pressed: false
+    },
 }
 
 function rectangularCollision({rectangle1, rectangle2}) {
@@ -121,6 +124,35 @@ function rectangularCollision({rectangle1, rectangle2}) {
         rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
     )
 }
+
+function determineWinner({player, enemy, timerId}) {
+    clearTimeout(timerId)
+    document.querySelector("#game-over-container").style.display = "flex"
+    if (player.health === enemy.health) {
+        document.querySelector("#game-over-container").innerHTML = "TIE"
+    } else if (player.health > enemy.health) {
+        document.querySelector("#game-over-container").innerHTML = "Player 1 Wins"
+    } else if (player.health < enemy.health) {
+        document.querySelector("#game-over-container").innerHTML = "Player 2 Wins"
+    }
+}
+
+let timer = 60
+let timerId
+function decreaseTimer() {
+    if (timer > 0) {
+        timerId = setTimeout(decreaseTimer, 1000)
+        timer--
+        document.querySelector("#timer").innerHTML = timer
+    }
+
+    //win conditions
+    if (timer === 0) {
+        determineWinner({player, enemy, timerId})
+    }
+}
+
+decreaseTimer()
 
 function animate() {
     window.requestAnimationFrame(animate)
@@ -161,8 +193,8 @@ function animate() {
     //detect collision
     if (
         rectangularCollision({
-            rectangle1: player,
-            rectangle2: enemy
+            rectangle1: enemy,
+            rectangle2: player
         }) &&
         enemy.isAttacking
         ) {
@@ -170,6 +202,12 @@ function animate() {
         player.health -= 20
         document.querySelector("#playerHealth").style.width = player.health + "%";
         }
+    
+
+    //end game on health base
+    if (enemy.health <= 0 || player.health <= 0) {
+        determineWinner({player, enemy, timerId})
+    }
 }
     
 animate()
@@ -205,7 +243,7 @@ window.addEventListener("keydown", (event)=> {
             enemy.velocity.y = -20
             break
         case "ArrowDown":
-            enemy.isAttacking = true
+            enemy.attack()
             break
     }
 })
