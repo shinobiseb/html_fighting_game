@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+}
+
+.playerHealth {
+    background-color: red;
+    height: 30px;
+    width: 100%;
+}
+
+.playerHealth-bg-bar {
+    position: absolute;
+    background-color: yellow;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.playerHealth-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    height: 30px;
+    width: 100%;
+}
+
+.timer {
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+.enemyHealth {
+    background-color: red;
+    height: 30px;
+}
+
+.enemyHealth-bg-bar {
+    position: absolute;
+    background-color: yellow;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.enemyHealth-container {
+    position: relative;
+    height: 30px;
+    width: 100%;
+}
+
+.UIContainer {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    position: relative;
+    display: inline-block;
+
+}
