@@ -1,5 +1,11 @@
 class Sprite {
-    constructor({position, imageSrc, scale = 1, framesMAX = 1 }) {
+    constructor({
+        position, 
+        imageSrc, 
+        scale = 1, 
+        framesMAX = 1, 
+        offset = { x: 0, y: 0 } 
+    }) {
         this.position = position
         this.width = 50
         this.height = 150
@@ -10,6 +16,7 @@ class Sprite {
         this.framesCurrent = 0
         this.framesElapsed = 0
         this.framesHold = 10
+        this.offset = offset
     }
 
     draw() {
@@ -21,15 +28,14 @@ class Sprite {
             this.image.width / this.framesMAX,
             this.image.height,
 
-            this.position.x, 
-            this.position.y, 
+            this.position.x - this.offset.x, 
+            this.position.y - this.offset.y, 
             (this.image.width / this.framesMAX) * this.scale, 
             this.image.height * this.scale
             )
     }
 
-    update() {
-        this.draw()
+    animateFrames() {
         this.framesElapsed++
 
         if (this.framesElapsed % this.framesHold === 0) {
@@ -39,12 +45,33 @@ class Sprite {
         this.framesCurrent = 0
         }
     }
+
+    update() {
+        this.draw()
+        this.animateFrames()
+    }
 }
 
 
-class Fighter {
-    constructor({position, velocity, color = "red", offset}) {
-        this.position = position
+class Fighter extends Sprite{
+    constructor({ 
+        position, 
+        velocity, 
+        color = "red",  
+        imageSrc, 
+        scale = 1, 
+        framesMAX = 1,
+        offset = {x: 0, y: 0},
+        sprites,
+    }) {
+        super({
+            position,
+            imageSrc,
+            scale,
+            framesMAX,
+            offset
+        })
+
         this.velocity = velocity
         this.width = 50
         this.height = 150
@@ -61,20 +88,24 @@ class Fighter {
         this.color = color
         this.isAttacking
         this.health = 100
-    }
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = 10
+        this.sprites = sprites
 
-    draw() {
-        c.fillStyle = this.color
-        c.fillRect(this.position.x, this.position.y, this.width ,this.height)
-
-        // Attack Box
-        if(this.isAttacking) {
-        c.fillStyle = "green"
-        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+        for (const sprite in this.sprites) {
+            sprites[sprite].image = new Image()
+            sprites[sprite].image.src = sprites[sprite].imageSrc
         }
+
+        console.log(this.sprites)
     }
+
     update() {
         this.draw()
+
+        this.animateFrames()
+        
         this.attackBox.position.x = this.position.x + this.attackBox.offset.x
         this.attackBox.position.y = this.position.y
         
@@ -85,11 +116,23 @@ class Fighter {
             this.velocity.y = 0
         } else this.velocity.y += gravity
     }
+    
 
     attack() {
         this.isAttacking = true
         setTimeout(()=> {
             this.isAttacking = false
         }, 100)
+    }
+
+    switchSprite(sprite) {
+        switch(sprite) {
+            case "idle":
+            break;
+            case "run":
+            break;
+            case "jump":
+            break;
+        }
     }
 }
