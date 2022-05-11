@@ -112,26 +112,63 @@ class Fighter extends Sprite{
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
+        //gravity function
         if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
             this.velocity.y = 0
+            this.position.y = 330
         } else this.velocity.y += gravity
     }
     
 
     attack() {
+        this.switchSprite("attack1")
         this.isAttacking = true
         setTimeout(()=> {
             this.isAttacking = false
         }, 100)
     }
 
-    switchSprite(sprite) {
-        switch(sprite) {
-            case "idle":
+switchSprite(sprite) {
+    if (this.image === this.sprites.attack1.image && this.framesCurrent < this.sprites.attack1.framesMAX - 1) return
+    switch(sprite) {
+        case "idle":
+            if (this.image !== this.sprites.idle.image) {
+            this.image = this.sprites.idle.image
+            this.framesMAX = this.sprites.idle.framesMAX
+            this.framesCurrent = 0 
+        }
             break;
-            case "run":
+
+        case "run":
+            if (this.image !== this.sprites.run.image) {
+            this.image = this.sprites.run.image
+            this.framesMAX = this.sprites.run.framesMAX
+            this.framesCurrent = 0 
+        }
             break;
-            case "jump":
+
+        case "jump":
+            if (this.image !== this.sprites.jump.image) {
+                this.image = this.sprites.jump.image
+                this.framesMAX = this.sprites.jump.framesMAX
+                this.framesCurrent = 0 
+            }
+            break;
+
+        case "fall":
+            if (this.image !== this.sprites.fall.image) {
+                this.image = this.sprites.fall.image
+                this.framesMAX = this.sprites.fall.framesMAX
+                this.framesCurrent = 0 
+            }
+            break;
+
+        case "attack1":
+            if (this.image !== this.sprites.attack1.image) {
+                this.image = this.sprites.attack1.image
+                this.framesMAX = this.sprites.attack1.framesMAX
+                this.framesCurrent = 0 
+            }
             break;
         }
     }
