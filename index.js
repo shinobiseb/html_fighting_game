@@ -67,6 +67,14 @@ const player = new Fighter({
             imageSrc: "./images/samuraiMack/Attack1.png",
             framesMAX: 6
         },
+    },
+    attackBox: {
+        offset: {
+            x: 100,
+            y: 50
+        },
+        width: 158,
+        height: 50
     }
 
 })
@@ -85,6 +93,43 @@ const enemy = new Fighter({
     offset: {
         x: -50,
         y: 0
+    },
+    imageSrc: "./images/kenji/Idle.png",
+    framesMAX: 4,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 168
+    },
+    sprites: {
+        idle: {
+            imageSrc: "./images/kenji/Idle.png",
+            framesMAX: 4
+        },
+        run: {
+            imageSrc: "./images/kenji/Run.png",
+            framesMAX: 8
+        },
+        jump: {
+            imageSrc: "./images/kenji/Jump.png",
+            framesMAX: 2
+        },
+        fall: {
+            imageSrc: "./images/kenji/Fall.png",
+            framesMAX: 2
+        },
+        attack1: {
+            imageSrc: "./images/kenji/Attack1.png",
+            framesMAX: 4
+        },
+    },
+    attackBox: {
+        offset: {
+            x: -170,
+            y: 50
+        },
+        width: 175,
+        height: 50
     }
 
 })
@@ -121,7 +166,7 @@ function animate() {
     background.update()
     shop.update()
     player.update()
-    // enemy.update()
+    enemy.update()
 
     player.velocity.x = 0
     enemy.velocity.x = 0
@@ -146,37 +191,59 @@ function animate() {
 
     //Enemy Movement
     if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
-        enemy.velocity.x = -5
+        enemy.velocity.x = -4
+        enemy.switchSprite("run")
     } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
-        enemy.velocity.x = 5
+        enemy.velocity.x = 4
+        enemy.switchSprite("run")
+    } else {
+        enemy.switchSprite("idle")
     }
 
-    //detect collision
+    //jumping
+    if(enemy.velocity.y < 0) {
+        enemy.switchSprite("jump")
+    } else if (enemy.velocity.y > 0) {
+        enemy.switchSprite("fall")
+    }
+
+    //detect player collision
     if (
         rectangularCollision({
             rectangle1: player,
             rectangle2: enemy
         }) &&
-        player.isAttacking
+        player.isAttacking && 
+        player.framesCurrent === 4
         ) {
         player.isAttacking = false
         enemy.health -= 20
         document.querySelector("#enemyHealth").style.width = enemy.health + "%"
         }
 
-    //detect collision
+    //if player misses
+    if (player.isAttacking && player.framesCurrent === 4) {
+        player.isAttacking = false
+    }
+
+    //detect enemy collision
     if (
         rectangularCollision({
             rectangle1: enemy,
             rectangle2: player
         }) &&
-        enemy.isAttacking
+        enemy.isAttacking &&
+        enemy.framesCurrent === 2
         ) {
         enemy.isAttacking = false
         player.health -= 20
         document.querySelector("#playerHealth").style.width = player.health + "%";
         }
-    
+
+    //if enemy misses
+    if (enemy.isAttacking && enemy.framesCurrent === 2) {
+        enemy.isAttacking = false
+    }
 
     //end game on health base
     if (enemy.health <= 0 || player.health <= 0) {
