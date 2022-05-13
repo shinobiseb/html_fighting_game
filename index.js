@@ -178,6 +178,7 @@ function animate() {
     enemy.velocity.x = 0
 
     //Player Movement
+    
     if (keys.a.pressed && player.lastKey === "a") {
         player.velocity.x = -4
         player.switchSprite("run")
@@ -234,28 +235,29 @@ function animate() {
 
 
 
-    //detect enemy collision
-    if (
-        rectangularCollision({
-            rectangle1: enemy,
-            rectangle2: player
-        }) &&
-        enemy.isAttacking &&
-        enemy.framesCurrent === 2
-        ) {
-        enemy.isAttacking = false
-        player.health -= 20
-        document.querySelector("#playerHealth").style.width = player.health + "%";
-        }
+//detect enemy collision & player gets hit
+if (
+    rectangularCollision({
+        rectangle1: enemy,
+        rectangle2: player
+    }) &&
+    enemy.isAttacking &&
+    enemy.framesCurrent === 2
+    ) {
+    player.takeHit()
+    enemy.isAttacking = false
 
-    //if enemy misses
-    if (enemy.isAttacking && enemy.framesCurrent === 2) {
-        enemy.isAttacking = false
+    document.querySelector("#playerHealth").style.width = player.health + "%";
     }
 
-    //end game on health base
-    if (enemy.health <= 0 || player.health <= 0) {
-        determineWinner({player, enemy, timerId})
+//if enemy misses
+if (enemy.isAttacking && enemy.framesCurrent === 2) {
+    enemy.isAttacking = false
+}
+
+//end game on health base
+if (enemy.health <= 0 || player.health <= 0) {
+    determineWinner({player, enemy, timerId})
     }
 }
     

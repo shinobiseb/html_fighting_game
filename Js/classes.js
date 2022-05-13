@@ -152,13 +152,14 @@ switchSprite(sprite) {
         this.framesCurrent < this.sprites.attack1.framesMAX - 1
     ) 
         return
-
-    //override when fighter gets hit
+    
+        //override when fighter gets hit
     if (
         this.image === this.sprites.takeHit.image && 
-        this.framesCurrent < this.sprites.takeHit.framesMax - 1
-    )
+        this.framesCurrent < this.sprites.takeHit.framesMAX - 1
+    ) 
         return
+
 
     switch(sprite) {
         case "idle":
