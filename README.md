@@ -23,6 +23,8 @@ Arrow Left & Right - Move left to right
 Arrow Up - Jump
 Arrow Down - Attack
 
+***Refresh the Page to start a new game***
+
 ### Future Plans: 
 
 - Fix Jumping in air
