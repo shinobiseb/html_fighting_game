@@ -1,16 +1,18 @@
 * {
     box-sizing: border-box;
+    font-family: 'VT323', monospace;
 }
 
 .playerHealth {
     background-color: red;
     height: 30px;
     width: 100%;
+    border-radius: 2px;
 }
 
 .playerHealth-bg-bar {
     position: absolute;
-    background-color: yellow;
+    background-color: rgb(0, 132, 255);
     top: 0;
     right: 0;
     bottom: 0;
@@ -27,22 +29,27 @@
 
 .timer {
     background-color: red;
+    border-radius: 40px;
     width: 100px;
     height: 100px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'VT323', monospace;
+    font-size: 4em;
+    color: white;
 }
 
 .enemyHealth {
     background-color: red;
     height: 30px;
+    border-radius: 2px;
 }
 
 .enemyHealth-bg-bar {
     position: absolute;
-    background-color: yellow;
+    background-color: rgb(0, 132, 255);
     top: 0;
     right: 0;
     left: 0;
@@ -53,6 +60,11 @@
     position: relative;
     height: 30px;
     width: 100%;
+}
+
+
+.health-bar-bg {
+    background-color: red;
 }
 
 .UIContainer {
@@ -77,7 +89,6 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 5em;
     z-index: 1;
 }
