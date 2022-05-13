@@ -14,14 +14,14 @@ https://www.youtube.com/watch?v=vyqbNFMDRGQ&t
 ### Controls:
 
 #### Player 1 (Left Side Character):
-A & D - Move left to right
-W - Jump
-Spacebar - Attack
+* A & D - Move left to right
+* W - Jump
+* Spacebar - Attack
 
 #### Player 2 (Right Side Character):
-Arrow Left & Right - Move left to right
-Arrow Up - Jump
-Arrow Down - Attack
+* Arrow Left & Right - Move left to right
+* Arrow Up - Jump
+* Arrow Down - Attack
 
 ***Refresh the Page to start a new game***
 
